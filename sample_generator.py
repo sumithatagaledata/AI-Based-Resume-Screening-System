@@ -11,7 +11,10 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 
-SAMPLES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample_resumes")
+if os.environ.get("VERCEL"):
+    SAMPLES_DIR = "/tmp/sample_resumes"
+else:
+    SAMPLES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample_resumes")
 
 SAMPLE_JOB_TITLE = "Senior Python & AI Developer"
 SAMPLE_JOB_DESCRIPTION = """We are seeking a Senior Python & AI Developer with 3+ years of experience in building scalable backend systems and machine learning workflows.

@@ -13,8 +13,17 @@ import os
 import json
 from typing import Dict, List, Any, Optional
 
-DB_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database")
-DB_PATH = os.path.join(DB_DIR, "resumes.db")
+if os.environ.get("VERCEL"):
+    DB_DIR = "/tmp/database"
+    DB_PATH = os.path.join(DB_DIR, "resumes.db")
+    src_db = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database", "resumes.db")
+    if not os.path.exists(DB_PATH) and os.path.exists(src_db):
+        import shutil
+        os.makedirs(DB_DIR, exist_ok=True)
+        shutil.copy2(src_db, DB_PATH)
+else:
+    DB_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "database")
+    DB_PATH = os.path.join(DB_DIR, "resumes.db")
 
 
 def get_db_connection() -> sqlite3.Connection:
